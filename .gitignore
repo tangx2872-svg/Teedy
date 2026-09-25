@@ -19,3 +19,6 @@ docs/*
 
 #macos
 .DS_Store
+
+!docs/images/
+!docs/images/**
