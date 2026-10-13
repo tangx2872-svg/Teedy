@@ -22,3 +22,6 @@ docs/*
 
 !docs/images/
 !docs/images/**
+
+# Track experiment 2 record only
+!docs/experiment-02-git.md
