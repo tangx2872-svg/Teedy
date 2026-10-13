@@ -387,6 +387,7 @@ http://localhost:8080/docs-web/
 
 **本次已确认：Web 服务启动完成，浏览器最终能正常打开 Teedy 页面。** 当前记录未提供登录、上传和检索等操作的完整证据，因此不将这些功能写成已验证通过。
 
+<<<<<<< HEAD
 > 📷 待补真实截图：保存 `docs/images/teedy-running.png`，使用本次真正成功打开的页面。无需为配图切换到特定界面，也不要用网上的产品图替代个人运行结果。
 
 <!--
@@ -610,3 +611,8 @@ git commit -m "docs: document Teedy experiment 1 with illustrations"
 - 本地核对文件：[父项目配置](pom.xml)、[Web 模块配置](docs-web/pom.xml)、[前端任务](docs-web/src/main/webapp/Gruntfile.js)、[前端依赖](docs-web/src/main/webapp/package.json)。
 
 本文件是个人实验记录。项目源码的许可说明请保留并参阅仓库中的 [COPYING](COPYING)。
+## 实验二信息
+
+学号：1260101027
+
+姓名：汤鑫
