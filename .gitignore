@@ -23,6 +23,9 @@ docs/*
 # IDE
 .vscode/
 
+# 运行时数据目录（jetty dev 模式 docs.home）
+/data/
+
 !docs/images/
 !docs/images/**
 
