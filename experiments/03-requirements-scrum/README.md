@@ -2,7 +2,11 @@
 
 ## 状态
 
-🔄 进行中（需求分析已完成，GitHub 看板待用户网页操作）
+✅ 已完成
+
+- 需求分析：基于 Teedy 真实源码完成，见 `reports/requirements-analysis.md`。
+- 用户故事分解：11 个用户故事 + 11 个可执行任务，见 `reports/requirements-analysis.md`。
+- GitHub 看板：已创建并录入完成，见 `reports/scrum-board-result.md`。
 
 ## 实验任务
 
@@ -31,4 +35,5 @@
 | --- | --- | --- |
 | 需求分析报告 | `reports/requirements-analysis.md` | ✅ 完成 |
 | 看板操作指引 | `reports/scrum-board-guide.md` | ✅ 完成 |
-| GitHub 看板截图 | `screenshots/` | ⏳ 待用户网页操作后归档 |
+| 看板完成记录 | `reports/scrum-board-result.md` | ✅ 完成 |
+| GitHub 看板 | https://github.com/users/tangx2872-svg/projects/4 | ✅ 完成（22 张卡片） |
