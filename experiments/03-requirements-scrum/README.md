@@ -2,7 +2,7 @@
 
 ## 状态
 
-⬜ 未开始
+🔄 进行中（需求分析已完成，GitHub 看板待用户网页操作）
 
 ## 实验任务
 
@@ -22,5 +22,13 @@
 ## 相关目录
 
 - `screenshots/`：看板与操作截图
-- `reports/`：需求分析报告
+- `reports/`：需求分析报告（`requirements-analysis.md`）、看板操作指引（`scrum-board-guide.md`）
 - `notes.md`：问题与解决
+
+## 产出清单
+
+| 产出 | 文件 | 状态 |
+| --- | --- | --- |
+| 需求分析报告 | `reports/requirements-analysis.md` | ✅ 完成 |
+| 看板操作指引 | `reports/scrum-board-guide.md` | ✅ 完成 |
+| GitHub 看板截图 | `screenshots/` | ⏳ 待用户网页操作后归档 |
