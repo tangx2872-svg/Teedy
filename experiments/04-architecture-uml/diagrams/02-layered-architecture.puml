@@ -1,0 +1,46 @@
+@startuml layered-architecture
+
+!theme plain
+skinparam defaultFontName "SimHei"
+title Teedy 分层架构（前后端分离）
+
+package "前端（AngularJS SPA）" {
+  [Controller\n(Document/Tag/UserGroup/Settings)] as ctrl
+  [Directive] as dir
+  [Service\n(UserService)] as svc
+  [Filter] as filt
+  ctrl --> svc
+}
+
+package "REST 资源层（docs-web）" {
+  [BaseResource\n(鉴权基类)] as base
+  [DocumentResource] as docres
+  [FileResource] as fileres
+  [TagResource] as tagres
+  [AclResource] as aclres
+  [RouteResource] as routeres
+  docres --|> base
+  fileres --|> base
+  tagres --|> base
+  aclres --|> base
+  routeres --|> base
+}
+
+package "业务核心层（docs-core）" {
+  [Service\n(FileService/InboxService)] as service
+  [DAO 层\n(DocumentDao/FileDao/TagDao...)] as dao
+  [JPA 实体\n(Document/File/Tag/User...)] as entity
+  [事件监听\n(listener)] as listener
+  service --> dao
+  dao --> entity
+}
+
+database "数据库（H2/PostgreSQL）\nT_DOCUMENT / T_FILE / T_TAG ..." as db
+
+ctrl ..> docres : HTTP/REST (JSON)
+docres --> service
+docres --> dao
+fileres --> service
+dao --> db : JPA (EntityManager)
+
+@enduml

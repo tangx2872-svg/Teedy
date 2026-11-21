@@ -4,8 +4,8 @@
 
 ## 当前状态
 
-- **当前任务**：实验三 —— 软件需求与 Scrum（GitHub Projects 看板）。
-- **下一步**：实验四 —— 软件架构与 UML（分析模块结构、生成 UML 图）。
+- **当前任务**：实验四 —— 软件架构与 UML（分析模块结构、生成 UML 图）。
+- **下一步**：实验五 —— Maven 与 JavaDoc（自动生成 JavaDoc）。
 - **最后更新**：2026-11-21
 
 ## 各章进度明细
@@ -18,7 +18,7 @@
 | 实验二 | 记录 Git 操作流程 | ✅ 已完成 | `3a0f723e` |
 | 实验二 | (3) 登录页 Logo 下加学号 | ✅ 已完成 | `7b18e3a4` |
 | 实验三：需求与 Scrum | GitHub Projects 看板 | ✅ 已完成 | 看板 projects/4（22 张卡片） |
-| 实验四：架构与 UML | UML 图 | ⬜ 未开始 | — |
+| 实验四：架构与 UML | UML 图 | ✅ 已完成 | 4 张 PlantUML 图 + 架构报告 |
 | 实验五：Maven 与 JavaDoc | 自动生成 JavaDoc | ⬜ 未开始 | — |
 | 实验六：测试与覆盖率 | JaCoCo 覆盖率提升 | ⬜ 未开始 | — |
 | 实验七：CI/CD | Jenkins + GitHub Actions | ⬜ 未开始 | — |

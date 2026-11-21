@@ -1,0 +1,32 @@
+@startuml module-dependencies
+
+!theme plain
+skinparam defaultFontName "SimHei"
+title Teedy 模块依赖关系（Maven 多模块结构）
+
+package "docs-parent (父 POM)" {
+  component "docs-core（后端核心）" as core
+  component "docs-web-common（共享基础设施）" as common
+  component "docs-web（Web 层）" as web
+}
+
+note bottom of core
+  业务核心：DAO / Service / JPA 实体 /
+  事件监听 / 工具类（索引、PDF、认证）
+end note
+
+note bottom of common
+  共享：REST 异常 / 安全 Principal /
+  过滤器（Security/CORS/JWT）/ RestUtil
+end note
+
+note bottom of web
+  REST 资源层 + AngularJS 前端 /
+  Jetty 打包部署
+end note
+
+web --> core : 依赖
+web --> common : 依赖
+core ..> common : 依赖（安全/工具）
+
+@enduml

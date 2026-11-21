@@ -1,0 +1,34 @@
+@startuml document-upload-sequence
+
+!theme plain
+skinparam defaultFontName "SimHei"
+title 文档上传流程时序图
+
+actor "用户" as user
+participant "AngularJS\n前端" as front
+participant "SecurityFilter" as sec
+participant "FileResource" as fileres
+participant "FileService" as filesvc
+participant "FileDao" as filedao
+participant "DocumentDao" as docdao
+database "数据库" as db
+
+user -> front : 选择文件并上传
+front -> sec : POST /file (multipart)
+sec -> sec : 校验 Token / Principal
+sec -> fileres : 请求放行（含 principal）
+fileres -> filesvc : processFile(file, principal)
+filesvc -> filedao : create(file)
+filedao -> db : INSERT T_FILE
+db --> filedao : fileId
+filedao --> filesvc : fileId
+filesvc --> fileres : fileId
+
+fileres -> docdao : create(document, fileId)
+docdao -> db : INSERT T_DOCUMENT
+db --> docdao : documentId
+docdao --> fileres : documentId
+fileres --> front : 200 {id, fileId}
+front --> user : 显示上传成功
+
+@enduml

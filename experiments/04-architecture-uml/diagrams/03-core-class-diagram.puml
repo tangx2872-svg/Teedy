@@ -1,0 +1,106 @@
+@startuml core-class-diagram
+
+!theme plain
+skinparam defaultFontName "SimHei"
+title Teedy 核心类图（REST → DAO → 实体）
+
+' ---- REST 层 ----
+abstract class BaseResource {
+  # HttpServletRequest request
+  # IPrincipal principal
+  + authenticate() : boolean
+  + checkBaseFunction(...) : void
+}
+
+class DocumentResource {
+  + list() : JsonResponse
+  + create(...) : JsonResponse
+  + get(id) : JsonResponse
+  + update(id, ...) : JsonResponse
+  + delete(id) : JsonResponse
+}
+
+class FileResource {
+  + add(...) : JsonResponse
+  + getVersions(id) : JsonResponse
+  + download(id) : Response
+}
+
+DocumentResource --|> BaseResource
+FileResource --|> BaseResource
+
+' ---- DAO 层 ----
+class DocumentDao {
+  + getById(id) : Document
+  + findByCriteria(...) : List<Document>
+  + create(document) : String
+  + update(document)
+  + delete(id)
+}
+
+class FileDao {
+  + getById(id) : File
+  + getByDocumentId(...) : List<File>
+}
+
+class TagDao {
+  + getByDocumentId(id) : List<Tag>
+}
+
+DocumentResource --> DocumentDao : 调用
+FileResource --> FileDao : 调用
+DocumentResource --> TagDao : 调用
+FileResource --> FileService : 调用
+
+' ---- Service 层 ----
+class FileService {
+  + processFile(...) : void
+  + getFileContent(...) : InputStream
+}
+
+' ---- 实体层 ----
+interface Loggable {
+  + toMessage() : String
+}
+
+class Document {
+  - String id
+  - String userId
+  - String fileId
+  - String title
+  - String description
+  - Date createDate
+  - Date updateDate
+}
+
+class File {
+  - String id
+  - String documentId
+  - String versionId
+  - String mimeType
+  - Date createDate
+}
+
+class Tag {
+  - String id
+  - String name
+  - String color
+}
+
+Document ..|> Loggable
+File ..|> Loggable
+
+DocumentDao ..> Document : 操作
+FileDao ..> File : 操作
+TagDao ..> Tag : 操作
+
+' ---- 实体间关联（字符串外键，非 JPA 关系注解） ----
+Document --> File : fileId（外键字段）
+Document --> Tag : 经 DocumentTag 关联表
+
+note bottom of Document
+  Teedy 实体使用字符串外键字段（userId/fileId）
+  而非 JPA @ManyToOne，由 DAO 手动 join
+end note
+
+@enduml
