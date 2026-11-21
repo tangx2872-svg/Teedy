@@ -20,6 +20,9 @@ docs/*
 #macos
 .DS_Store
 
+# IDE
+.vscode/
+
 !docs/images/
 !docs/images/**
 
