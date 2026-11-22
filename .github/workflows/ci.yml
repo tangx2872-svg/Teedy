@@ -66,10 +66,12 @@ jobs:
         continue-on-error: true
 
       # ===== 阶段 4：完整打包（生成 WAR / JAR 制品 + JavaDoc）=====
-      # JavaDoc 已在 pom.xml 中绑定到 package 阶段（attach-javadocs execution），
-      # 因此 package 会同时产出 javadoc 目录与 *-javadoc.jar，无需单独步骤。
-      - name: Maven 打包（package，含 JavaDoc）
-        run: mvn -B -ntp package -DskipTests
+      # JavaDoc 已在 pom.xml 中绑定到 package 阶段（attach-javadocs execution）。
+      # 用 install（而非 package）：docs-web 的 javadoc/package 需要解析
+      # docs-core/docs-web-common 依赖，干净环境中必须先把它们 install 到本地
+      # 仓库（本地因已有 ~/.m2 snapshot 缓存而未暴露此问题）。
+      - name: Maven 打包（install，含 JavaDoc）
+        run: mvn -B -ntp install -DskipTests
 
       # ===== 阶段 4.5：如实反映测试结果（测试失败则 job 标红）=====
       - name: 检查测试结果
