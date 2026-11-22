@@ -84,7 +84,10 @@ jobs:
           echo "自动化测试全部通过。"
 
       # ===== 阶段 6：归档构建制品与报告 =====
+      # 归档步骤用 if: !cancelled() 确保即使「检查测试结果」如实标红，
+      # 制品与报告仍能被上传，便于下载查看。
       - name: 归档构建制品（WAR / JAR）
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
@@ -96,6 +99,7 @@ jobs:
           if-no-files-found: warn
 
       - name: 归档 Surefire 测试报告
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: surefire-reports
@@ -105,6 +109,7 @@ jobs:
           if-no-files-found: warn
 
       - name: 归档 JaCoCo 覆盖率报告
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-reports
@@ -113,6 +118,7 @@ jobs:
           if-no-files-found: warn
 
       - name: 归档 PMD 报告
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: pmd-reports
@@ -123,6 +129,7 @@ jobs:
           if-no-files-found: warn
 
       - name: 归档 JavaDoc
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: javadoc
