@@ -4,8 +4,8 @@
 
 ## 当前状态
 
-- **当前任务**：实验五 —— Maven 与 JavaDoc（自动生成 JavaDoc）。
-- **下一步**：实验六 —— 软件测试与覆盖率（JaCoCo）。
+- **当前任务**：实验六 —— 软件测试与覆盖率（JaCoCo）。
+- **下一步**：实验七 —— CI/CD（Jenkins + GitHub Actions）。
 - **最后更新**：2026-11-22
 
 ## 各章进度明细
@@ -20,7 +20,7 @@
 | 实验三：需求与 Scrum | GitHub Projects 看板 | ✅ 已完成 | 看板 projects/4（22 张卡片） |
 | 实验四：架构与 UML | UML 图 | ✅ 已完成 | 4 张 PlantUML 图 + 架构报告 |
 | 实验五：Maven 与 JavaDoc | 自动生成 JavaDoc | ✅ 已完成 | javadoc 插件绑定 package 阶段 |
-| 实验六：测试与覆盖率 | JaCoCo 覆盖率提升 | ⬜ 未开始 | — |
+| 实验六：测试与覆盖率 | JaCoCo 覆盖率提升 | ✅ 已完成 | LocaleUtil 0%→91.7%，总体行覆盖 24.8% |
 | 实验七：CI/CD | Jenkins + GitHub Actions | ⬜ 未开始 | — |
 | 实验八：Docker | 容器化 + 推送 | ⬜ 未开始 | — |
 | 实验九：Kubernetes | 部署验证 | ⬜ 未开始 | — |
