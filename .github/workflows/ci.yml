@@ -1,0 +1,115 @@
+# Teedy 持续集成流水线（实验七）
+# 包含：Maven 构建、PMD 代码检查、自动化测试、Surefire 测试报告、
+#       JavaDoc 文档生成、可执行 JAR / WAR 制品归档。
+#
+# 说明：本项目存在 3 个上游基线测试失败（TestMimeTypeUtil、
+#       TestPdfFormatHandler#testIssue373、TestFileUtil，源于 JDK11 MIME
+#       映射与 PDFBox 版本差异），为如实反映流水线拦截能力，测试阶段
+#       不做任何降级，失败即红灯，并在报告中如实记录。
+
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  build:
+    name: Maven 构建与质量检查
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 JDK 11
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+          cache: maven
+
+      - name: 缓存 Maven 依赖
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # ===== 阶段 1：Maven 构建（编译 + 打包，跳过测试以先保证可构建）=====
+      - name: Maven 构建（compile）
+        run: mvn -B -ntp clean compile
+
+      # ===== 阶段 2：PMD 代码检查（verify 阶段，生成 pmd.xml / pmd.html）=====
+      - name: PMD 代码检查
+        run: mvn -B -ntp pmd:pmd pmd:cpd pmd:check pmd:cpd-check
+
+      # ===== 阶段 3：自动化测试 + Surefire 报告 + JaCoCo 覆盖率 =====
+      - name: 运行自动化测试
+        run: mvn -B -ntp test
+        continue-on-error: false
+
+      # ===== 阶段 4：JavaDoc 文档生成 =====
+      - name: 生成 JavaDoc
+        run: mvn -B -ntp javadoc:javadoc javadoc:jar
+
+      # ===== 阶段 5：完整打包（生成 WAR / JAR 制品）=====
+      - name: Maven 打包（package）
+        run: mvn -B -ntp package -DskipTests
+
+      # ===== 阶段 6：归档构建制品与报告 =====
+      - name: 归档构建制品（WAR / JAR）
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            docs-web/target/*.war
+            docs-web/target/*.jar
+            docs-core/target/*.jar
+            docs-web-common/target/*.jar
+          if-no-files-found: warn
+
+      - name: 归档 Surefire 测试报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: |
+            **/target/surefire-reports/*.txt
+            **/target/surefire-reports/*.xml
+          if-no-files-found: warn
+
+      - name: 归档 JaCoCo 覆盖率报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-reports
+          path: |
+            **/target/site/jacoco/**
+          if-no-files-found: warn
+
+      - name: 归档 PMD 报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: pmd-reports
+          path: |
+            **/target/site/pmd.html
+            **/target/pmd.xml
+            **/target/cpd.xml
+          if-no-files-found: warn
+
+      - name: 归档 JavaDoc
+        uses: actions/upload-artifact@v4
+        with:
+          name: javadoc
+          path: |
+            **/target/apidocs/**
+            **/target/*-javadoc.jar
+          if-no-files-found: warn
