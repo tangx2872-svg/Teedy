@@ -21,7 +21,7 @@
 | 实验四：架构与 UML | UML 图 | ✅ 已完成 | 4 张 PlantUML 图 + 架构报告 |
 | 实验五：Maven 与 JavaDoc | 自动生成 JavaDoc | ✅ 已完成 | javadoc 插件绑定 package 阶段 |
 | 实验六：测试与覆盖率 | JaCoCo 覆盖率提升 | ✅ 已完成 | LocaleUtil 0%→91.7%，总体行覆盖 24.8% |
-| 实验七：CI/CD | Jenkins + GitHub Actions | ⬜ 未开始 | — |
+| 实验七：CI/CD | Jenkins + GitHub Actions | 🟡 进行中 | `fe2b6342`（Jenkinsfile + workflow + PMD，Actions run #44973692748） |
 | 实验八：Docker | 容器化 + 推送 | ⬜ 未开始 | — |
 | 实验九：Kubernetes | 部署验证 | ⬜ 未开始 | — |
 | 实验十：项目汇报 | 汇总汇报 | ⬜ 未开始 | — |
@@ -29,7 +29,7 @@
 ## 关键事实备忘
 
 - 学号 `1260101027`，姓名 `汤鑫`（以 README 与 `docs/experiment-02-git.md` 为准，不得自行编造）。
-- 远程仓库 `tangx2872-svg/Teedy`，master 分支；origin 为 SSH 地址 `git@github.com:tangx2872-svg/Teedy.git`。
+- 远程仓库 `tangx2872-svg/Teedy`，master 分支；origin 为 HTTPS 地址 `https://github.com/tangx2872-svg/Teedy.git`（原 SSH 已在 11-22 切换为 HTTPS）。
 - Git 身份：`user.name=tangx2872-svg`，`user.email=256494934+tangx2872-svg@users.noreply.github.com`（noreply，保护隐私）。
 - 历史遗留：曾出现本地与远程 diverged、README 冲突、package-lock.json 变化、GH007 邮箱隐私，均已处理并归档于 `docs/experiment-02-git.md`。
 - 环境注意：本地为 **Windows 原生**（非 WSL），仓库路径 `D:\Research\Teedy`；Maven 曾缺失，已在本轮重新安装 3.9.9（见 ENVIRONMENT.md）。
