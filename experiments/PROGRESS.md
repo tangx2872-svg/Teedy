@@ -21,7 +21,7 @@
 | 实验四：架构与 UML | UML 图 | ✅ 已完成 | 4 张 PlantUML 图 + 架构报告 |
 | 实验五：Maven 与 JavaDoc | 自动生成 JavaDoc | ✅ 已完成 | javadoc 插件绑定 package 阶段 |
 | 实验六：测试与覆盖率 | JaCoCo 覆盖率提升 | ✅ 已完成 | LocaleUtil 0%→91.7%，总体行覆盖 24.8% |
-| 实验七：CI/CD | Jenkins + GitHub Actions | 🟡 进行中 | `fe2b6342`（Jenkinsfile + workflow + PMD，Actions run #44973692748） |
+| 实验七：CI/CD | Jenkins + GitHub Actions | ✅ 已完成 | `fe2b6342`→`d5bd61f2`（GitHub Actions 跑通，Jenkinsfile 已编写） |
 | 实验八：Docker | 容器化 + 推送 | ⬜ 未开始 | — |
 | 实验九：Kubernetes | 部署验证 | ⬜ 未开始 | — |
 | 实验十：项目汇报 | 汇总汇报 | ⬜ 未开始 | — |

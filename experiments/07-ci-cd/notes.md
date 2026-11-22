@@ -111,11 +111,27 @@ Maven 构建、PMD 代码检查、自动化测试、Surefire 测试报告、Java
 移除独立 JavaDoc 步骤，依赖 pom 已绑定的 `attach-javadocs` execution，由
 `package` 阶段统一产出 javadoc 目录与 `*-javadoc.jar`。
 
-### 迭代 3（`f69576cf`）— 最终状态
+### 迭代 3（`f69576cf`）— package 阶段云端失败
 
-流水线完整跑通：PMD ✅、测试 ✅（continue-on-error 捕获 3 个上游基线失败）、
-package+JavaDoc ✅、制品/报告归档 ✅；最后「检查测试结果」步骤如实 `exit 1`
-标红。**结论为 failure 是符合预期的如实结果**，非流水线缺陷。
+移除独立 JavaDoc 步骤后，`package -DskipTests` 在云端仍失败：`docs-web` 的
+javadoc/package 需要解析 `docs-core`/`docs-web-common` 的 snapshot 依赖，干净
+环境中 `package` 无法解析（本地因 `~/.m2` 已有 install 缓存而通过）。
+
+### 迭代 4（`e650ba58`）— install 修复跨模块依赖
+
+`package` 改为 `install -DskipTests`，先把上游模块装进本地仓库，解决跨模块
+依赖解析。验证通过：PMD ✅、测试 ✅、install ✅；但归档步骤被跳过。
+
+### 迭代 5（`d5bd61f2`）— 归档步骤加 if 修复
+
+「检查测试结果」`exit 1` 使 job 失败，归档步骤默认被跳过。为 5 个归档步骤加
+`if: !cancelled()`，确保测试如实标红的同时制品/报告仍可下载。
+
+### 迭代 6（最终状态）
+
+流水线完整跑通：六大环节全部实现，5 类 artifact（build-artifacts 91MB /
+surefire-reports / jacoco-reports / pmd-reports / javadoc）全部归档成功，
+「检查测试结果」如实标红反映 3 个上游基线失败。
 
 ### 经验教训
 
@@ -123,5 +139,10 @@ package+JavaDoc ✅、制品/报告归档 ✅；最后「检查测试结果」�
    checkout，reactor 依赖解析、插件 default-cli execution 的行为会不同。
 2. 命令行直接调 goal（`pmd:check`、`javadoc:javadoc`）与 pom 绑定的 execution
    行为不一致，应优先依赖 pom 的 lifecycle 绑定（package/verify 阶段）。
-3. 未认证 GitHub REST API 有 60 次/小时限流，轮询流水线状态需节制。
+3. 多模块 Maven 在干净环境必须用 `install`（而非 `package`）才能让下游模块
+   解析上游 snapshot 依赖。
+4. 未认证 GitHub REST API 有 60 次/小时限流，轮询流水线状态需节制；可用公开
+   Actions 页面（WebFetch）作为限流时的替代。
+5. GitHub Actions 中 `continue-on-error` 的步骤失败不会阻断后续，但 job 最终
+   失败会跳过默认归档步骤，需显式 `if: !cancelled()` 保住制品。
 
