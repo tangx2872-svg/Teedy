@@ -4,9 +4,9 @@
 
 ## 当前状态
 
-- **当前任务**：实验六 —— 软件测试与覆盖率（JaCoCo）。
-- **下一步**：实验七 —— CI/CD（Jenkins + GitHub Actions）。
-- **最后更新**：2026-11-22
+- **当前任务**：实验八 —— Docker 容器化（已完成）。
+- **下一步**：实验九 —— Kubernetes 部署。
+- **最后更新**：2026-11-23
 
 ## 各章进度明细
 
@@ -22,7 +22,7 @@
 | 实验五：Maven 与 JavaDoc | 自动生成 JavaDoc | ✅ 已完成 | javadoc 插件绑定 package 阶段 |
 | 实验六：测试与覆盖率 | JaCoCo 覆盖率提升 | ✅ 已完成 | LocaleUtil 0%→91.7%，总体行覆盖 24.8% |
 | 实验七：CI/CD | Jenkins + GitHub Actions | ✅ 已完成 | `fe2b6342`→`d5bd61f2`（GitHub Actions 跑通，Jenkinsfile 已编写） |
-| 实验八：Docker | 容器化 + 推送 | ⬜ 未开始 | — |
+| 实验八：Docker | 容器化 + 推送 | ✅ 已完成 | `5a9f9ff5`→`b206c011`（多阶段构建+8888+推 GHCR） |
 | 实验九：Kubernetes | 部署验证 | ⬜ 未开始 | — |
 | 实验十：项目汇报 | 汇总汇报 | ⬜ 未开始 | — |
 
