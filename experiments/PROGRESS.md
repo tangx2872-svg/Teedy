@@ -4,8 +4,8 @@
 
 ## 当前状态
 
-- **当前任务**：实验八 —— Docker 容器化（已完成）。
-- **下一步**：实验九 —— Kubernetes 部署。
+- **当前任务**：实验九 —— Kubernetes 部署（已完成）。
+- **下一步**：实验十 —— 项目汇报/总结。
 - **最后更新**：2026-11-23
 
 ## 各章进度明细
@@ -23,7 +23,7 @@
 | 实验六：测试与覆盖率 | JaCoCo 覆盖率提升 | ✅ 已完成 | LocaleUtil 0%→91.7%，总体行覆盖 24.8% |
 | 实验七：CI/CD | Jenkins + GitHub Actions | ✅ 已完成 | `fe2b6342`→`d5bd61f2`（GitHub Actions 跑通，Jenkinsfile 已编写） |
 | 实验八：Docker | 容器化 + 推送 | ✅ 已完成 | `5a9f9ff5`→`b206c011`（多阶段构建+8888+推 GHCR） |
-| 实验九：Kubernetes | 部署验证 | ⬜ 未开始 | — |
+| 实验九：Kubernetes | 部署验证 | ✅ 已完成 | Docker Desktop K8s 单节点 + Deployment/Service + Service 访问 HTTP 200 |
 | 实验十：项目汇报 | 汇总汇报 | ⬜ 未开始 | — |
 
 ## 关键事实备忘

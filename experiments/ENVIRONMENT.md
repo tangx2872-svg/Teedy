@@ -13,7 +13,7 @@
 | Node.js | v22.22.2 | 前端构建 |
 | npm | 10.9.7 | |
 | Maven | 3.9.9 | 本轮重新安装，见下方安装位置 |
-| 远程仓库 | `git@github.com:tangx2872-svg/Teedy.git` | SSH |
+| 远程仓库 | `https://github.com/tangx2872-svg/Teedy.git` | HTTPS（已从 SSH 切换） |
 
 ## Maven 安装信息
 
@@ -53,6 +53,29 @@ mvn clean install -DskipTests
 ## 访问地址
 
 - 登录页：`http://localhost:8080`（构建产物方式，端口以实际配置为准）
+
+## Docker 环境（实验八/九新增）
+
+- **Docker Desktop**：4.100.0（Engine 29.9.3），后端 WSL2（内核 6.18.33）
+- **安装位置**：`C:\Users\Lenovo\AppData\Local\Programs\DockerDesktop\`
+- **docker.exe**：`C:\Users\Lenovo\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe`
+- **Docker Compose**：v5.7.1；**kubectl**：v1.36.1（Docker Desktop 自带）
+- **代理**：FlClashCore，`127.0.0.1:7890`（仅监听本机回环，未开局域网）
+- **镜像加速源**（`C:\Users\Lenovo\.docker\daemon.json` 的 `registry-mirrors`）：
+  - `https://docker.m.daocloud.io`
+  - `https://docker.1ms.run`
+  - `https://docker.xuanyuan.me`
+
+### 环境修复记录（2026-11-23）
+
+1. **WSL 服务被禁用**（`WSLService` 状态 Disabled，报错 `0x80070422`）→ 管理员 PowerShell 执行
+   `sc.exe config WSLService start= auto; sc.exe start WSLService` 修复，现开机自启。
+2. **Docker Hub 拉镜像超时**（`auth.docker.io` 走代理不稳定）→ 配置 `registry-mirrors`
+   走国内加速源解决。
+3. **代理配置**：`C:\Users\Lenovo\AppData\Roaming\Docker\settings-store.json` 增加
+   `OverrideProxyHTTP/HTTPS = http://127.0.0.1:7890`。
+4. **注意**：Docker Desktop 的 GUI 启动/`wsl.exe` 被 WorkBuddy 沙箱拦截，需用户手动
+   双击桌面图标启动；`docker`/`docker compose`/`kubectl` 命令可直接调用（PATH 需含 bin 目录）。
 
 ## 历史环境差异说明
 

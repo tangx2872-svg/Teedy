@@ -1,0 +1,56 @@
+# =============================================================
+# Teedy 极简 Dockerfile（实验九：使用本地已构建的 WAR）
+# 前提：本地已执行过 mvn package，产出 docs-web/target/docs-web-*.war
+# 特点：跳过容器内 npm install + maven 构建，直接 COPY 本地 WAR，
+#       构建只需几十秒，彻底避开本地代理环境下的外网下载问题
+# =============================================================
+
+FROM eclipse-temurin:11-jdk
+
+LABEL maintainer="tangx2872-svg"
+LABEL description="Teedy document management system (experiment 9, k8s local-build)"
+
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    JAVA_OPTIONS="-Dfile.encoding=UTF-8 -Xmx1g" \
+    JETTY_VERSION=11.0.20 \
+    JETTY_HOME=/opt/jetty
+
+# 换阿里云 apt 源，安装最小运行依赖
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu|http://mirrors.aliyun.com/ubuntu|g' /etc/apt/sources.list \
+    && sed -i 's|http://security.ubuntu.com/ubuntu|http://mirrors.aliyun.com/ubuntu|g' /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get -y -q --no-install-recommends install \
+    tzdata curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# 安装 Jetty 11（home 目录 /opt/jetty）
+RUN curl -fsSL -o /tmp/jetty.tar.gz \
+    "https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/${JETTY_VERSION}/jetty-home-${JETTY_VERSION}.tar.gz" \
+    && tar xzf /tmp/jetty.tar.gz -C /opt \
+    && mv /opt/jetty-home-${JETTY_VERSION} /opt/jetty \
+    && rm /tmp/jetty.tar.gz \
+    && useradd jetty -U -s /bin/false \
+    && chown -R jetty:jetty /opt/jetty
+
+# Jetty 工作目录（jetty.base = /app）
+RUN mkdir -p /app/webapps /data \
+    && chown -R jetty:jetty /app /data
+
+# 拷贝 Jetty 部署配置与本地已构建的 WAR 制品
+COPY docs.xml /app/webapps/docs.xml
+COPY docs-web/target/docs-web-*.war /app/webapps/docs.war
+
+# Jetty 容器内监听端口
+EXPOSE 8080
+
+WORKDIR /app
+
+# 以 root 初始化 Jetty 模块（生成 start.ini）
+RUN java -jar /opt/jetty/start.jar --add-modules=server,http,webapp,deploy \
+    && chown -R jetty:jetty /app
+
+USER jetty
+
+CMD ["java", "-jar", "/opt/jetty/start.jar"]

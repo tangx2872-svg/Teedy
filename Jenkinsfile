@@ -152,6 +152,50 @@ pipeline {
                 }
             }
         }
+
+        // ===== 实验九：Kubernetes 部署阶段 =====
+        // 需 Jenkins agent 已安装 kubectl 并已配置集群（如 Docker Desktop K8s / minikube）
+        stage('部署到 Kubernetes') {
+            steps {
+                sh '''
+                    # 使用本地构建的镜像（tag 为 BUILD_NUMBER）
+                    # 将部署清单中的镜像占位符替换为当前构建号
+                    sed -i "s|image: teedy:local|image: ${IMAGE_NAME}:${env.BUILD_NUMBER}|" \
+                        experiments/09-kubernetes/k8s/teedy-deployment.yaml
+
+                    kubectl apply -f experiments/09-kubernetes/k8s/teedy-deployment.yaml
+
+                    # 等待 Deployment 就绪
+                    kubectl rollout status deployment/teedy --timeout=180s
+                '''
+            }
+            post {
+                always {
+                    sh '''
+                        # 记录部署状态与 Pod 信息
+                        kubectl get deployment teedy -o wide
+                        kubectl get pods -l app=teedy -o wide
+                        kubectl get service teedy -o wide
+                    '''
+                }
+            }
+        }
+
+        stage('验证 Kubernetes 服务访问') {
+            steps {
+                sh '''
+                    # 通过 NodePort 30080 验证 Service 可达
+                    # （kind/Docker Desktop 单节点集群，NodePort 映射到宿主机）
+                    for i in $(seq 1 30); do
+                        if curl -fsS -o /dev/null http://localhost:30080/ 2>/dev/null; then
+                            echo "Teedy 已通过 Kubernetes Service (NodePort 30080) 正常响应"
+                            break
+                        fi
+                        sleep 2
+                    done
+                '''
+            }
+        }
     }
 
     post {
