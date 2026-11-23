@@ -45,11 +45,11 @@ FROM eclipse-temurin:11-jdk
 LABEL maintainer="tangx2872-svg"
 LABEL description="Teedy document management system (experiment 8)"
 
-ENV LANG C.UTF-8
-ENV LC_ALL C.UTF-8
-ENV JAVA_OPTIONS="-Dfile.encoding=UTF-8 -Xmx1g"
-ENV JETTY_VERSION 11.0.20
-ENV JETTY_HOME /opt/jetty
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    JAVA_OPTIONS="-Dfile.encoding=UTF-8 -Xmx1g" \
+    JETTY_VERSION=11.0.20 \
+    JETTY_HOME=/opt/jetty
 
 # 安装运行所需系统依赖（OCR / 媒体处理）
 RUN apt-get update && \
