@@ -1,0 +1,25 @@
+# Git
+.git
+.gitignore
+.github
+
+# 构建产物
+**/target
+**/dist
+**/node_modules
+**/build
+docs-android
+docs-importer
+
+# IDE / 系统
+.vscode
+.idea
+*.iml
+.DS_Store
+
+# 实验记录（无需进镜像）
+experiments
+docs
+
+# 数据目录
+/data

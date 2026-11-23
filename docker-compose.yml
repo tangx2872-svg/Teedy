@@ -1,18 +1,23 @@
 version: '3'
 services:
-# Teedy Application
+  # Teedy 应用（实验八：自建镜像）
   teedy-server:
-    image: sismics/docs:v1.10
+    # 自建镜像（由根目录 Dockerfile 构建），也可用 GHCR 推送后的镜像
+    image: ghcr.io/tangx2872-svg/teedy:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: unless-stopped
     ports:
-      # Map internal port to host
-      - 8080:8080
+      # 实验要求：宿主机端口 8888 → 容器内 Jetty 8080
+      - "8888:8080"
     environment:
-      # Base url to be used
-      DOCS_BASE_URL: "https://docs.example.com"
-      # Set the admin email
+      # 对外访问的 base url（实验八使用宿主机 8888 端口）
+      DOCS_BASE_URL: "http://localhost:8888"
+      # 初始化管理员账号
       DOCS_ADMIN_EMAIL_INIT: "admin@example.com"
-      # Set the admin password (in this example: "superSecure")
+      # 初始化管理员密码（bcrypt，示例密码为 superSecure）
       DOCS_ADMIN_PASSWORD_INIT: "$$2a$$05$$PcMNUbJvsk7QHFSfEIDaIOjk1VI9/E7IPjTKx.jkjPxkx2EOKSoPS"
     volumes:
+      # 持久化数据目录（映射到容器内 /data，即 docs.home）
       - ./docs/data:/data
