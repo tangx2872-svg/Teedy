@@ -38,7 +38,9 @@ WORKDIR /build
 RUN mvn -B -ntp package -DskipTests
 
 # ---------- 阶段 2：运行 ----------
-FROM eclipse-temurin:11-jre
+# 注意：用 JDK（非 JRE）。Jetty 11 的 start.jar --add-modules 需要 JDK 才能
+# 初始化模块（生成 start.ini），JRE 会报 exit code 1。
+FROM eclipse-temurin:11-jdk
 
 LABEL maintainer="tangx2872-svg"
 LABEL description="Teedy document management system (experiment 8)"
@@ -70,28 +72,32 @@ RUN apt-get update && \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# 安装 Jetty 11
+# 安装 Jetty 11（home 目录 /opt/jetty）
 RUN curl -fsSL -o /tmp/jetty.tar.gz \
     "https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/${JETTY_VERSION}/jetty-home-${JETTY_VERSION}.tar.gz" \
     && tar xzf /tmp/jetty.tar.gz -C /opt \
     && mv /opt/jetty-home-${JETTY_VERSION} /opt/jetty \
     && rm /tmp/jetty.tar.gz \
     && useradd jetty -U -s /bin/false \
-    && mkdir -p /opt/jetty/webapps /data \
-    && chown -R jetty:jetty /opt/jetty /data \
-    && chmod +x /opt/jetty/bin/jetty.sh
+    && chown -R jetty:jetty /opt/jetty
 
-# 拷贝 Jetty 配置与 WAR 制品
-COPY docs.xml /opt/jetty/webapps/docs.xml
-COPY --from=builder /build/docs-web/target/docs-web-*.war /opt/jetty/webapps/docs.war
+# Jetty 工作目录（jetty.base = /app），存放 start.ini 与 webapps
+RUN mkdir -p /app/webapps /data \
+    && chown -R jetty:jetty /app /data
+
+# 拷贝 Jetty 部署配置与 WAR 制品（jetty.base 的 webapps 目录）
+COPY docs.xml /app/webapps/docs.xml
+COPY --from=builder /build/docs-web/target/docs-web-*.war /app/webapps/docs.war
 
 # Jetty 容器内监听端口（宿主机通过 -p 8888:8080 映射）
 EXPOSE 8080
 
-WORKDIR /opt/jetty
-USER jetty
+WORKDIR /app
 
-# 初始化 Jetty 模块并启动
-RUN java -jar /opt/jetty/start.jar --add-modules=server,http,webapp,deploy
+# 以 root 初始化 Jetty 模块（在 jetty.base=/app 下生成 start.ini）
+RUN java -jar /opt/jetty/start.jar --add-modules=server,http,webapp,deploy \
+    && chown -R jetty:jetty /app
+
+USER jetty
 
 CMD ["java", "-jar", "/opt/jetty/start.jar"]
