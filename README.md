@@ -1,3 +1,30 @@
+# Teedy 项目实验总览（《智能软件工程》课程）
+
+> 课程：研究生《智能软件工程》　基础项目：Teedy（开源文档管理系统）
+> 学号：**1260101027**　姓名：**汤鑫**
+> 个人仓库：https://github.com/tangx2872-svg/Teedy　上游仓库：https://github.com/sustech-cs304/Teedy
+
+本仓库围绕 Teedy 完整走通了《智能软件工程》课程的十个递进式实验，覆盖「环境搭建 → 版本控制 → 需求与 Scrum → 架构分析 → 构建与文档 → 测试与覆盖率 → CI/CD → 容器化 → 编排部署 → 项目汇报」全流程。
+
+## 十个实验总览
+
+| 实验 | 主题 | 核心成果 | 状态 |
+| --- | --- | --- | --- |
+| [实验一](experiments/01-setup/README.md) | Teedy 源码构建、部署与运行 | Fork/Clone、Maven 构建、Jetty 启动、登录验证 | ✅ |
+| [实验二](experiments/02-git/README.md) | Git 版本控制 | 提交历史、README 学号、登录页学号 | ✅ |
+| [实验三](experiments/03-requirements-scrum/README.md) | 软件需求与 Scrum | 用户故事 + GitHub Projects 看板（22 卡片） | ✅ |
+| [实验四](experiments/04-architecture-uml/README.md) | 软件架构与 UML | 4 张 PlantUML 图 + 架构报告 | ✅ |
+| [实验五](experiments/05-maven-javadoc/README.md) | Maven 与 JavaDoc | JavaDoc 绑定 package 阶段自动生成 | ✅ |
+| [实验六](experiments/06-testing-jacoco/README.md) | 软件测试与覆盖率 | JaCoCo，LocaleUtil 0%→91.7% | ✅ |
+| [实验七](experiments/07-ci-cd/README.md) | CI/CD | GitHub Actions 六环节流水线 + Jenkinsfile | ✅ |
+| [实验八](experiments/08-docker/README.md) | Docker 容器化 | 多阶段构建 + 推送 GHCR | ✅ |
+| [实验九](experiments/09-kubernetes/README.md) | Kubernetes 部署 | Deployment/Service + 访问验证 | ✅ |
+| [实验十](experiments/10-presentation/README.md) | 项目汇报 | 九章成果汇总报告 | ✅ |
+
+各实验的详细原理、分步操作命令、结果验证与踩坑记录见对应实验目录的 `README.md`。跨实验的进度真源见 [`experiments/PROGRESS.md`](experiments/PROGRESS.md)，环境与依赖见 [`experiments/ENVIRONMENT.md`](experiments/ENVIRONMENT.md)。
+
+---
+
 # 实验一：Teedy 源码构建、部署与运行
 
 > 从获取开源项目到浏览器成功访问：记录 Windows 11 + WSL2 Ubuntu 环境下的真实操作、前端构建补充过程与问题排查。
@@ -610,13 +637,22 @@ git commit -m "docs: document Teedy experiment 1 with illustrations"
 - 本地核对文件：[父项目配置](pom.xml)、[Web 模块配置](docs-web/pom.xml)、[前端任务](docs-web/src/main/webapp/Gruntfile.js)、[前端依赖](docs-web/src/main/webapp/package.json)。
 
 本文件是个人实验记录。项目源码的许可说明请保留并参阅仓库中的 [COPYING](COPYING)。
-## 实验二信息
 
-学号：1260101027
+---
 
-姓名：汤鑫
+## 实验记录导航
 
-## 实验记录
+| 实验 | 主题 | 详细记录 |
+| --- | --- | --- |
+| 实验一 | Teedy 源码构建、部署与运行 | 本文 + [`experiments/01-setup/README.md`](experiments/01-setup/README.md) |
+| 实验二 | Git 版本控制 | [`experiments/02-git/README.md`](experiments/02-git/README.md) + [`docs/experiment-02-git.md`](docs/experiment-02-git.md) |
+| 实验三 | 软件需求与 Scrum | [`experiments/03-requirements-scrum/README.md`](experiments/03-requirements-scrum/README.md) |
+| 实验四 | 软件架构与 UML | [`experiments/04-architecture-uml/README.md`](experiments/04-architecture-uml/README.md) |
+| 实验五 | Maven 与 JavaDoc | [`experiments/05-maven-javadoc/README.md`](experiments/05-maven-javadoc/README.md) |
+| 实验六 | 软件测试与覆盖率 | [`experiments/06-testing-jacoco/README.md`](experiments/06-testing-jacoco/README.md) |
+| 实验七 | CI/CD | [`experiments/07-ci-cd/README.md`](experiments/07-ci-cd/README.md) |
+| 实验八 | Docker 容器化 | [`experiments/08-docker/README.md`](experiments/08-docker/README.md) |
+| 实验九 | Kubernetes 部署 | [`experiments/09-kubernetes/README.md`](experiments/09-kubernetes/README.md) |
+| 实验十 | 项目汇报 | [`experiments/10-presentation/README.md`](experiments/10-presentation/README.md) |
 
-- 实验一：Teedy 源码构建、部署与运行（本文）
-- [实验二：Git 版本控制操作实验记录](docs/experiment-02-git.md)
+学号：1260101027　姓名：汤鑫
